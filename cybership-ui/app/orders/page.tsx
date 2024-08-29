@@ -64,7 +64,6 @@ const TableComponent: React.FC = () => {
         const response = await axios.get(
           "http://localhost:3001/api/fulfillments"
         );
-        console.log("response from api", response.data);
         setData(response.data.data);
       } catch (error) {
         // Handle error if API call fails
