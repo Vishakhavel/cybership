@@ -90,8 +90,6 @@ const TableComponent: React.FC = () => {
     setRows(data.slice(startIndex, endIndex));
   }, [page, rowsPerPage, data]);
 
-  console.log("row data", rows);
-
   // Event handler for changing the page
   const handleChangePage = (
     event: React.MouseEvent | null,
@@ -99,10 +97,6 @@ const TableComponent: React.FC = () => {
   ): void => {
     setPage(newPage);
   };
-
-  console.log("the slice");
-
-  console.log("the data", data);
 
   // Event handler for changing the number of rows per page
   const handleChangeRowsPerPage = (
