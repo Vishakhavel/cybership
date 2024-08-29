@@ -12,7 +12,6 @@ const Line = styled("div")<StatusLineProps>(({ color, width, theme }) => ({
   height: "4px", // Adjust the line height as needed
   width: width, // Dynamic width based on props
   //   backgroundColor:
-  //     color === "green" ? theme.palette.success.main : theme.palette.grey[500],
   backgroundColor: color === "green" ? "green" : "grey",
   margin: "10px 0", // Optional: Add some margin for spacing
 }));

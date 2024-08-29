@@ -23,28 +23,28 @@ import Layout from "@/components/layout";
 import Timeline from "@/components/ui/timeline";
 import { OrderStatus } from "@/types";
 
-interface TableRowData {
-  orderId: number;
-  customerName: string;
-  status: OrderStatus;
-}
+// interface TableRowData {
+//   orderId: number;
+//   customerName: string;
+//   status: OrderStatus;
+// }
 
-const dummyData: TableRowData[] = [
-  { orderId: 1, customerName: "John Doe", status: "ordered" },
-  { orderId: 2, customerName: "Jane Smith", status: "shipping" },
-  { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
-  { orderId: 1, customerName: "John Doe", status: "ordered" },
-  {
-    orderId: 2,
-    customerName: "Jane Smith",
-    status: "shipping",
-  },
-  { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
-  { orderId: 1, customerName: "John Doe", status: "ordered" },
-  { orderId: 2, customerName: "Jane Smith", status: "shipping" },
-  { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
-  { orderId: 1, customerName: "John Doe", status: "ordered" },
-];
+// const dummyData: TableRowData[] = [
+//   { orderId: 1, customerName: "John Doe", status: "ordered" },
+//   { orderId: 2, customerName: "Jane Smith", status: "shipping" },
+//   { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
+//   { orderId: 1, customerName: "John Doe", status: "ordered" },
+//   {
+//     orderId: 2,
+//     customerName: "Jane Smith",
+//     status: "shipping",
+//   },
+//   { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
+//   { orderId: 1, customerName: "John Doe", status: "ordered" },
+//   { orderId: 2, customerName: "Jane Smith", status: "shipping" },
+//   { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
+//   { orderId: 1, customerName: "John Doe", status: "ordered" },
+// ];
 
 const TableComponent: React.FC = () => {
   const [page, setPage] = useState(0);
@@ -61,11 +61,11 @@ const TableComponent: React.FC = () => {
       try {
         // Set loading to true at the start of the request
         setLoading(true);
-        // const response = await axios.get<any[]>(
-        //   "https://jsonplaceholder.typicode.com/posts"
-        // );
-        // setData(response.data);
-        setData(dummyData);
+        const response = await axios.get(
+          "http://localhost:3001/api/fulfillments"
+        );
+        console.log("response from api", response.data);
+        setData(response.data.data);
       } catch (error) {
         // Handle error if API call fails
         if (axios.isAxiosError(error)) {
@@ -75,10 +75,7 @@ const TableComponent: React.FC = () => {
         }
       } finally {
         // Set loading to false after the request completes
-        setTimeout(() => {
-          // setData(response.data);
-          setLoading(false);
-        }, 3000);
+        setLoading(false);
       }
     };
 
@@ -90,7 +87,6 @@ const TableComponent: React.FC = () => {
     // Compute the rows to display based on the current page and rowsPerPage
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    setRows(data.slice(startIndex, endIndex));
     setRows(data.slice(startIndex, endIndex));
   }, [page, rowsPerPage, data]);
 
@@ -158,7 +154,7 @@ const TableComponent: React.FC = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[2, 5, 7, 50, { value: -1, label: "All" }]}
+        rowsPerPageOptions={[5, 10, 50]}
         component="div"
         count={data.length}
         rowsPerPage={rowsPerPage}
