@@ -10,10 +10,22 @@ export const getOrderData = async (req: Request, res: Response) => {
       "inside [controller] - getOrderData - orders fetched from postgres",
       orders
     );
+
+    // Remove the database ID from the returned data, UI won't need it.
+    let modifiedOrderData = orders.map((order: any) => {
+      let { orderId, customerName, status } = order;
+      return {
+        orderId,
+        customerName,
+        status,
+      };
+    });
+
+    // return the modified data, along with the length and a success status
     res.status(200).json({
       status: "success",
-      result: orders.length,
-      data: orders,
+      result: modifiedOrderData.length,
+      data: modifiedOrderData,
     });
   } catch (error) {
     console.error(error);
