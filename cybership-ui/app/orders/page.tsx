@@ -23,28 +23,28 @@ import Layout from "@/components/layout";
 import Timeline from "@/components/ui/timeline";
 import { OrderStatus } from "@/types";
 
-// interface TableRowData {
-//   orderId: number;
-//   customerName: string;
-//   status: OrderStatus;
-// }
+interface TableRowData {
+  orderId: number;
+  customerName: string;
+  status: OrderStatus;
+}
 
-// const dummyData: TableRowData[] = [
-//   { orderId: 1, customerName: "John Doe", status: "ordered" },
-//   { orderId: 2, customerName: "Jane Smith", status: "shipping" },
-//   { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
-//   { orderId: 1, customerName: "John Doe", status: "ordered" },
-//   {
-//     orderId: 2,
-//     customerName: "Jane Smith",
-//     status: "shipping",
-//   },
-//   { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
-//   { orderId: 1, customerName: "John Doe", status: "ordered" },
-//   { orderId: 2, customerName: "Jane Smith", status: "shipping" },
-//   { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
-//   { orderId: 1, customerName: "John Doe", status: "ordered" },
-// ];
+const dummyData: TableRowData[] = [
+  { orderId: 1, customerName: "John Doe", status: "ordered" },
+  { orderId: 2, customerName: "Jane Smith", status: "shipping" },
+  { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
+  { orderId: 1, customerName: "John Doe", status: "ordered" },
+  {
+    orderId: 2,
+    customerName: "Jane Smith",
+    status: "shipping",
+  },
+  { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
+  { orderId: 1, customerName: "John Doe", status: "ordered" },
+  { orderId: 2, customerName: "Jane Smith", status: "shipping" },
+  { orderId: 3, customerName: "Alice Johnson", status: "fulfilled" },
+  { orderId: 1, customerName: "John Doe", status: "ordered" },
+];
 
 const TableComponent: React.FC = () => {
   const [page, setPage] = useState(0);
@@ -61,10 +61,26 @@ const TableComponent: React.FC = () => {
       try {
         // Set loading to true at the start of the request
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:3001/api/fulfillments"
+
+        // NOTE : Commenting out this code, and usingg the dummy API call from API gateway. Uncomment the axios get and the setDate funtion to use the response from the DB, from express server.
+        // const response = await axios.get(
+        //   "http://localhost:3001/api/fulfillments"
+        // );
+        // setData(response.data.data);
+
+        // NOTE - dummy API call from AWS API Gateway
+
+        const response = await fetch(
+          "https://uh4efu4gp8.execute-api.us-east-2.amazonaws.com/default/cybership-dummy-api",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
-        setData(response.data.data);
+        let responseJson = await response.json();
+        setData(responseJson.data);
       } catch (error) {
         // Handle error if API call fails
         if (axios.isAxiosError(error)) {
